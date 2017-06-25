@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Edit</title>
+
+    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+    body {
+      margin-top: 50px;
+    }
+    </style>
+  </head>
+  <body>
+
+    <%- include('_menu'); %>
+
+    <div class="container">
+
+      <div class="page-header">
+        <h2>修改商品</h2>
+      </div>
+
+      <form class="form-horizontal">
+
+        <div class="form-group">
+          <label for="title" class="col-sm-2 control-label">產品名稱</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="title" name="title" value="<%=post.title %>" placeholder="輸入一個有趣的文章標題" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="short" class="col-sm-2 control-label">價錢</label>
+          <div class="col-sm-10">
+            <input type="short" class="form-control" id="short" name="short" value="<%=post.short %>"
+            placeholder="輸入價錢" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description" class="col-sm-2 control-label">內容</label>
+          <div class="col-sm-10">
+            <textarea id="description" name="description" class="form-control" rows="10" required><%=post.description %></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="picture" class="col-sm-2 control-label">封面圖片</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="picture" name="picture" value="<%=post.picture %>" placeholder="http(s)://..." required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">送出</button>
+            <a href="/" class="btn btn-default">取消</a>
+          </div>
+        </div>
+
+      </form>
+
+
+    </div><!-- /.container -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+    $('form').submit(function(e) {
+      var data = {
+        title: $('input[name=title]').val(),
+        short: $('textarea[name=short]').val(),
+        description: $('textarea[name=description]').val(),
+        picture: $('input[name=picture]').val()
+      };
+      $.ajax({
+        url: '/api/posts/<%= post._id %>',
+        type: 'PUT',
+        dataType: 'json',
+        data: data,
+        success: function(result) {
+          location.href = '/';
+        }
+      });
+      e.preventDefault();
+      return false;
+    });
+    </script>
+
+  </body>
+</html>

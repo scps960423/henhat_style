@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>
+        <%= title %>
+    </title>
+
+    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        body {
+            margin-top: 50px;
+        }
+
+        div.gallery {
+            /*margin: 100px;*/
+            /*border: 1px solid #ccc;*/
+            float: left;
+            width: 40%;
+            padding: 10px;
+        }
+
+        div.gallery img {
+            width: 150px;
+            height: 80px;
+            float: right
+        }
+        /*.container {
+            margin: auto;
+            width: 80%;
+
+            padding: 50px;
+        }*/
+    </style>
+</head>
+
+<body>
+
+    <%- include('_menu'); %>
+
+        <div class="container">
+
+
+            <% posts.forEach(function(post){ %>
+                <div class="gallery">
+                    <div class="row" style="padding: 15px">
+                        <div class="col-sm-4">
+                            <img src="<%= post.picture %>" class="img-thumbnail" alt="Cinque Terre" />
+                        </div>
+                        <div class="col-sm-8">
+                            <h2><%= post.title %></h2>
+                            <h4><%= post.short %></h4>
+                            <a href="/show-<%= post._id %>" class="btn btn-primary btn-sm">閱讀全文</a>
+                            <a href="/buy-<%= post._id %>" class="btn btn-default btn-sm">購買</a>
+                            <!--<a href="/edit-<%= post._id %>" class="btn btn-default btn-sm">修改</a>-->
+                            <!--<button type="button" class="btn btn-danger btnDelete btn-sm" data-id="<%= post._id %>">刪除</button>-->
+                        </div>
+                    </div>
+                </div>
+
+                <% }) %>
+
+
+        </div>
+        <!-- /.container -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+                $('.btnDelete').click(function() {
+                    var post_id = $(this).data('id');
+                    if (confirm("是否要刪除 " + post_id)) {
+                        $.ajax({
+                            url: '/api/posts/' + post_id,
+                            type: 'DELETE',
+                            success: function(result) {
+                                location.reload();
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+
+</body>
+
+</html>
